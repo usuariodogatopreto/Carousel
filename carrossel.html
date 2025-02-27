@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            font-family: Arial;
+        }
+
+        #carrossel{
+            position:absolute;
+            top:50%;
+            left: 50%;
+            transform: translate(-50%, -50%)
+        }
+
+        .corpo {
+            box-shadow: 0px 0px 5px black;
+            width: 600px;
+            height: 400px;
+            border-radius: 20px;
+            display:flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding-top: 40px
+        }
+
+        .nome {
+            font-size: 30px;
+        }
+        .foto{
+            max-width: 100px;
+            max-height: 100px;
+        }
+
+        .cargo {
+            font-size: 20px;
+        }
+        .descricao {
+            font-size: 16px;
+        }
+        button {
+            border:none;
+            background-color: white;
+            font-size: 25px;
+            color:rgba(0, 0, 0, 0.751)
+        }
+        button:hover{
+            color: black;
+        }
+
+        #navBar {
+            height: 100px;
+            display:flex;
+            justify-content: space-around;
+            align-items:center;
+            box-shadow: 0 0 5px black
+        }
+        .spanBar {
+            font-size: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="navBar">
+        <span class="spanBar">Carrossel</span>
+        <span class="spanBar">Carousel</span>
+    </div>
+    <div id="carrossel">
+        <div class="corpo">
+            <span class="nome"></span>
+            <div class=foto style="width: 100px; height: 100px;background-size:cover; background-position-x: center; background-position-y: center;border-radius: 100%;"></div>
+            <span class=cargo></span>
+            <p class="descricao" style="margin-left: 40px; margin-right: 40px;text-align:justify;"></p>
+            <div style="display:flex; flex-direction: column; width: 100px; position:absolute; bottom: 0; margin-bottom: 30px; gap: 20px    ">
+                <div style="display:flex; flex-direction:row; justify-content: center;gap:20px;">
+                    <button onclick="modulos.decrescimo()"><</button>
+                    <button onclick="modulos.acrescimo()">></button>
+                </div>
+                <div style="display:flex; justify-content: center; align-content: center">
+                    <button onclick="modulos.acrescimo()">Next</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</body>
+<script>
+
+let pessoas = []
+let pessoaAtual = 0
+class Pessoa {
+        constructor(nome, foto, cargo, descricao) {
+            this.nome = nome
+            this.foto = foto
+            this.cargo = cargo
+            this.descricao = descricao
+        }
+    }
+
+    let modulos = {
+        adicionarPessoa: function (nome, foto, cargo, descricao ) {
+            let novaPessoa = new Pessoa(nome, foto, cargo, descricao)
+            pessoas.push(novaPessoa)
+        },
+        mostrarPessoa: function(lista, atual) {
+            nomeSpan = document.getElementsByClassName('nome')[0]
+            img = document.getElementsByClassName('foto')[0]
+            cargoSpan = document.getElementsByClassName('cargo')[0]
+            descricaoP = document.getElementsByClassName('descricao')[0]
+            nomeSpan.innerText = lista[atual].nome
+            img.style.backgroundImage = `url(${lista[atual].foto})`
+            cargoSpan.innerText =  lista[atual].cargo
+            descricaoP.innerText = lista[atual].descricao
+        },
+        acrescimo: function() {
+            if(pessoaAtual == pessoas.length - 1) {
+                pessoaAtual = 0
+                modulos.mostrarPessoa(pessoas, pessoaAtual)
+            } else {
+                pessoaAtual++
+                modulos.mostrarPessoa(pessoas, pessoaAtual)
+            }
+
+        },
+        decrescimo:function(){
+            if(pessoaAtual == 0) {
+                pessoaAtual = pessoas.length - 1
+                modulos.mostrarPessoa(pessoas, pessoaAtual)
+
+            } else {
+                pessoaAtual--
+                modulos.mostrarPessoa(pessoas, pessoaAtual)
+            }
+
+        }
+    }
+    modulos.adicionarPessoa('João', './img/pessoa1.avif', 'Programador Front-end', 'Criador de sites e designer.')
+    modulos.adicionarPessoa('Fernando', './img/pessoa2.jpeg', 'Vedendor', 'Vendedor geral de lojas, como sapatos, roupas, cosméticos.')
+    modulos.adicionarPessoa('Pai do Chris', './img/pessoa3.jpeg', 'Ator', 'Ele é o ator da série de Todo mundo odeia o Chris.')
+    modulos.adicionarPessoa('Pai do Chris', './img/pessoa4.webp', 'Ator', 'Ele é o ator da série de Todo mundo odeia o Chris.')
+    modulos.mostrarPessoa(pessoas,pessoaAtual)
+
+
+</script>
+</html>
